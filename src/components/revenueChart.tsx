@@ -23,12 +23,12 @@ function RevenueChart() {
 
   return (
     <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 xl:col-span-2">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center md:justify-between">
         <div>
           <h3 className="text-lg font-semibold text-slate-950">Payment volume</h3>
           <p className="text-sm text-slate-500">Daily payment performance for the last 7 days</p>
         </div>
-        <div className="flex rounded-xl bg-slate-100 p-1 text-sm font-medium text-slate-600">
+        <div className="flex rounded-xl w-max bg-slate-100 p-1 text-sm font-medium text-slate-600">
           <button className="rounded-lg bg-white px-3 py-1.5 shadow-sm">7D</button>
           <button className="px-3 py-1.5">30D</button>
           <button className="px-3 py-1.5">12M</button>
