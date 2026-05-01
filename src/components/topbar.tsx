@@ -1,4 +1,10 @@
-function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
+type TopbarProps = {
+    onMenuClick: () => void
+    search: string
+    setSearch: (search: string) => void
+}
+
+function Topbar({ onMenuClick, search, setSearch }: TopbarProps) {
   return (
     <>
       <header className="sticky top-0 z-1 flex items-start justify-between gap-4 border-b border-slate-200 bg-white px-6 py-5">
@@ -20,6 +26,8 @@ function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
           <input
             placeholder="Search payments, customers..."
             className="w-72 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none placeholder:text-slate-400"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <button className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
             Create
@@ -37,6 +45,8 @@ function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
         <input
           placeholder="Search payments, customers..."
           className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none placeholder:text-slate-400"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <div className="flex gap-3">
           <button className="flex-1 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white">Create</button>

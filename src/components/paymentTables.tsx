@@ -6,6 +6,9 @@ const payments = [
   { id: 'pay_10235', customer: 'Elena Ross', amount: '$590.00', status: 'Succeeded', method: 'Wallet', date: 'Apr 22' },
 ]
 
+const filterOptions = ['All', 'Succeeded', 'Pending', 'Failed']
+
+
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
     Succeeded: 'bg-emerald-50 text-emerald-700',
@@ -16,7 +19,24 @@ function StatusBadge({ status }: { status: string }) {
   return <span className={`rounded-full px-3 py-1 text-xs font-semibold ${styles[status]}`}>{status}</span>
 }
 
-function PaymentsTable() {
+type PaymentsTableProps = {
+  search: string
+  statusFilter: string
+  setStatusFilter: (status: string) => void
+}
+
+function PaymentsTable( { search, statusFilter, setStatusFilter }: PaymentsTableProps) {
+  const filteredPayments = payments.filter(p => {
+    const matchesSearch = 
+      p.customer.toLowerCase().includes(search.toLowerCase()) ||
+      p.id.toLowerCase().includes(search.toLowerCase())
+
+    const matchesStatus = statusFilter === 'All' || p.status === statusFilter
+
+    return matchesSearch && matchesStatus
+  }
+  );
+
   return (
     <section className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -24,7 +44,22 @@ function PaymentsTable() {
           <h3 className="text-lg font-semibold text-slate-950">Recent payments</h3>
           <p className="text-sm text-slate-500">Latest customer payments and status updates</p>
         </div>
-        <button className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">View all</button>
+        <div className="mb-5 flex flex-wrap gap-2">
+          {filterOptions.map(option => (
+            <button
+              key={option}
+              onClick={() => setStatusFilter(option)}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                statusFilter === option
+                    ? 'bg-indigo-600 text-white'
+                    : 'border border=slate-200 bg-white text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+          <button className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">View all</button>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
@@ -40,7 +75,7 @@ function PaymentsTable() {
             </tr>
           </thead>
           <tbody>
-            {payments.map((payment) => (
+            {filteredPayments.map((payment) => (
               <tr key={payment.id} className="bg-slate-50 text-sm text-slate-700">
                 <td className="rounded-l-2xl px-4 py-4 font-semibold text-slate-950">{payment.id}</td>
                 <td className="px-4 py-4">{payment.customer}</td>
@@ -51,6 +86,15 @@ function PaymentsTable() {
               </tr>
             ))}
           </tbody>
+          
+          {filteredPayments.length === 0 && (
+            <tr>
+              <td colSpan={6} className="px=4 py-10 text-center text-sm text-slate-500">
+                No payments found.   
+              </td>
+          </tr>
+          )}
+
         </table>
       </div>
     </section>

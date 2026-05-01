@@ -11,6 +11,8 @@ import IntegrationStatus from './components/developer'
 
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('All')
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-950">
@@ -20,7 +22,7 @@ export default function App() {
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <Topbar onMenuClick={() => setIsSidebarOpen(true)} />
+          <Topbar onMenuClick={() => setIsSidebarOpen(true)} search={search} setSearch={setSearch} />
 
           <main className="flex-1 space-y-6 p-6 lg:p-8">
             <BalanceCards />
@@ -30,7 +32,11 @@ export default function App() {
               <QuickActions />
             </section>
 
-            <PaymentsTable />
+            <PaymentsTable 
+              search={search}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+               />
 
             <section className="grid gap-6 xl:grid-cols-2">
               <CustomerPanel />
