@@ -8,6 +8,15 @@ const payments = [
   { id: 'pay_10235', customer: 'Elena Ross', amount: '$590.00', status: 'Succeeded', method: 'Wallet', date: 'Apr 22' },
 ]
 
+type Payment = {
+  id: string;
+  customer: string;
+  amount: string;
+  status: string;
+  method: string;
+  date: string;
+};
+
 const filterOptions = ['All', 'Succeeded', 'Pending', 'Failed']
 
 
@@ -47,7 +56,7 @@ function PaymentsTable( { search, statusFilter, setStatusFilter }: PaymentsTable
     return matchesSearch && matchesStatus
   })
 
-  const [selectedPayment, setSelectedPayment] = useState<null>(null);
+  const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
 
   
   return (
@@ -105,8 +114,8 @@ function PaymentsTable( { search, statusFilter, setStatusFilter }: PaymentsTable
           
           {filteredPayments.length === 0 && (
             <tr>
-              <td colSpan={6} className="px=4 py-10 text-center text-sm text-slate-500">
-                No payments found.   
+              <td colSpan={6} className="px-4 py-10 text-center text-sm text-slate-500">
+                No payments found.
               </td>
           </tr>
           )}
